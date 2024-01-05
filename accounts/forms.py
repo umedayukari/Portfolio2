@@ -19,12 +19,11 @@ class RegistForm(forms.ModelForm):
         
 class EmailAuthenticationForm(AuthenticationForm):
     email = forms.EmailField(label='メールアドレス', required=True)
-    username = forms.CharField(label='ユーザー名', required=False)
-    
+
     class Meta:
-        model =Users
-        fields = ['username', 'email', 'password']
-        labels = {'email': 'メールアドレス','password':'パスワード'}
+        model = Users
+        fields = ['email', 'password']
+        labels = {'email': 'メールアドレス', 'password': 'パスワード'}
     
     
     
