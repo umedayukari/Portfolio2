@@ -15,7 +15,10 @@ class RegistForm(forms.ModelForm):
         model =Users
         fields = ['username','email','sex','date_of_birth','password']
     
-    
+# class LoginForm(EmailAuthenticationForm):
+#     class Meta:
+#         model = Users
+#         fields = ['email', 'password']
         
 class EmailAuthenticationForm(AuthenticationForm):
     email = forms.EmailField(label='メールアドレス', required=True)
@@ -24,6 +27,7 @@ class EmailAuthenticationForm(AuthenticationForm):
         model = Users
         fields = ['email', 'password']
         labels = {'email': 'メールアドレス', 'password': 'パスワード'}
+
     
     
     
