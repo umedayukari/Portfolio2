@@ -11,6 +11,13 @@ class RegistUserView(CreateView):
     form_class = RegistForm
     success_url = reverse_lazy('accounts:login')
     
+    def form_valid(self, form):
+        # フォームがバリデーションを通過した場合の処理
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        return super().form_valid(form)
+    
 class HomeView(TemplateView):
     template_name = 'home.html'
     

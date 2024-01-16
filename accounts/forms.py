@@ -10,10 +10,12 @@ class RegistForm(forms.ModelForm):
     sex =forms.CharField(label='性別')
     date_of_birth = forms.DateField(label='生年月日')
     password = forms.CharField(label='パスワード',widget=forms.PasswordInput())
+    confirm_password = forms.CharField(label='パスワード再入力', widget=forms.PasswordInput())
     
-    class Meta:
+    class Meta():
         model =Users
-        fields = ['username','email','sex','date_of_birth','password']
+        fields = ('username','email','sex','date_of_birth','password')
+    
     
 # class LoginForm(EmailAuthenticationForm):
 #     class Meta:
