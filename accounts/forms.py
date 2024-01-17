@@ -29,9 +29,21 @@ class EmailAuthenticationForm(AuthenticationForm):
         model = Users
         fields = ['email', 'password']
         labels = {'email': 'メールアドレス', 'password': 'パスワード'}
-
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['disabled'] = True
+        self.fields['username'].required = False
     
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+        
+        if not email or not password:
+            raise forms.ValidationError("Both email and password are required.")
+            
+        return cleaned_data
     
     
     
