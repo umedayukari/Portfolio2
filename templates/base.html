@@ -7,6 +7,7 @@
     <body>
       <nav class="navbar nabvar-expand-lg navbar-light bg-light">
       {% if user.is_authenticated %}
+      <a class="navbar-brand" href="{% url 'boards:create_theme'%}">プレゼントの記録と登録</a>
       <a class="navbar-brand" href="{% url 'accounts:user_logout'%}">ログアウト</a>
       {% else %}
       <a class="navbar-brand" href="{% url 'accounts:login' %}">ログイン</a>
