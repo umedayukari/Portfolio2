@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import RegistForm, EmailAuthenticationForm
-from django.contrib.auth import authenticate, login
+from .forms import RegistForm
+from django.contrib.auth import login
+from .forms import EmailLoginForm
 
 class RegistUserView(CreateView):
     template_name = 'regist.html'
@@ -29,14 +30,12 @@ class HomeView(TemplateView):
             return redirect('accounts:login')
 
 class CustomLoginView(LoginView):
+    form_class = EmailLoginForm
     template_name = 'login.html'
-    form_class = EmailAuthenticationForm
     
     def form_valid(self, form):
         # フォームがバリデーションを通過した場合の処理
-        user = authenticate(request=self.request,
-                            email=form.cleaned_data['email'],
-                            password=form.cleaned_data['password'])
+        user = form.get_user()
         
         if user is not None:
             login(self.request, user)
