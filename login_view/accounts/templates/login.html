@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>ようこそ!Next Memoriesへ!</h1>
-  <p>ログインしてください</p>
+  <h2>ようこそ!Next Memoriesへ!</h2>
+  <h3>ログインしてください</h3>
   
   <form method="post" action="{% url 'accounts:login' %}">
     {% csrf_token %}
+    <br>
     {{ form.email.label_tag }}
     {{ form.email }}
     <br>
@@ -15,3 +16,5 @@
     <button type="submit">ログイン</button>
   </form>
 {% endblock %}
+
+
