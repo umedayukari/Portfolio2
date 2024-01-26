@@ -31,3 +31,36 @@ class Comments(models.Model):
 
     class Meta:
         db_table = 'comments'
+
+# Opponent情報のモデル
+class Opponent(models.Model):
+    date = models.DateField()
+    sex = models.CharField(max_length=1)
+    name = models.CharField(max_length=255)
+    anniversary_details = models.TextField()
+    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'opponents'
+
+# 記念日記録のモデル
+class AnniversaryRecords(models.Model):
+    date = models.DateField()
+    relationships = models.CharField(max_length=255)
+    purpose = models.CharField(max_length=255)
+    present = models.CharField(max_length=255)
+    present_type = models.CharField(max_length=255)
+    range_of_amounts = models.CharField(max_length=255)
+    amount_of_money = models.DecimalField(max_digits=10, decimal_places=2)
+    photo = models.ImageField(upload_to='photos/')
+    memories = models.TextField()
+    self_assessment = models.TextField()
+    improvements = models.TextField()
+    opponent = models.ForeignKey('Opponent', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'anniversary_records'
