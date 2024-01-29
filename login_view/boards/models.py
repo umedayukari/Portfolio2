@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class ThemesManager(models.Manager):
@@ -8,22 +9,19 @@ class ThemesManager(models.Manager):
 
 
 class Themes(models.Model):
-
     title = models.CharField(max_length=255)
     user = models.ForeignKey(
-        'accounts.Users', on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
-    
     objects = ThemesManager()
     
     class Meta:
         db_table = 'themes'
 
 class Comments(models.Model):
-
     comment = models.CharField(max_length=1000)
     user = models.ForeignKey(
-        'accounts.Users', on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
     theme = models.ForeignKey(
         'Themes', on_delete=models.CASCADE
@@ -38,7 +36,7 @@ class Opponent(models.Model):
     sex = models.CharField(max_length=1)
     name = models.CharField(max_length=255)
     anniversary_details = models.TextField()
-    user = models.ForeignKey('accounts.User', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 

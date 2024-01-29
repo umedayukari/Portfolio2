@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>記念日の記録一覧<h3>
+<form method="POST">
+  {% csrf_token%}
+  {{ create_anniversary_record_form.as_p }} <!-- ここを変更しました -->
+  <input type="submit"value="新規作成">
+</form>
+{% endblock %}
+
