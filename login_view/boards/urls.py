@@ -1,13 +1,13 @@
 from django.urls import path
 from . import views
-from .views import register_partner
+from .views import register_opponent
 
 app_name = 'boards'
 
 urlpatterns = [
-    path('create_anniversary_record/', views.create_anniversary_record, name='create_anniversary_record'),
-    path('anniversary_records/', views.list_anniversary_records, name='list_anniversary_records'),
-    path('register_partner/', register_partner, name='register_partner'),
-    path('register_present/', views.register_present, name='register_present'),
+    path('register_anniversary/', views.register_anniversary, name='register_anniversary'),
+    path('anniversary_records/', views.anniversary_records, name='anniversary_records'),
+     path('register_opponent/', views.register_opponent, name='register_opponent'),
+    path('opponent_list/', views.opponent_list, name='opponent_list'),
     path('search/', views.search, name='search'),
 ]

@@ -4,9 +4,9 @@
   <h2>Welcome to Your Home Page!</h2>
   <p style="font-size: 24px;">こんにちは! {{ user.username }}さん!</p>
   <br>
-  <a href="{% url 'boards:register_partner' %}" class="btn btn-primary" style= "background-color: orange; color: white; margin-bottom: 15px;">お相手の登録</a>
+  <a href="{% url 'boards:opponent_list' %}" class="btn btn-primary" style= "background-color: orange; color: white; margin-bottom: 15px;">お相手の登録</a>
   <br>
-  <a href="{% url 'boards:create_anniversary_record' %}" class="btn btn-primary" style="background-color: orange; color: white; margin-bottom: 15px;">記念日の記録</a>
+  <a href="{% url 'boards:register_anniversary' %}" class="btn btn-primary" style="background-color: orange; color: white; margin-bottom: 15px;">記念日の記録</a>
   <br>
   <a href="{% url 'boards:search' %}" class="btn btn-primary" style="background-color: orange; color: white; margin-bottom: 15px;">プレゼントの検索</a>
   <!-- ここにユーザーの情報や思い出の一覧など、ホーム画面の内容を追加してください -->

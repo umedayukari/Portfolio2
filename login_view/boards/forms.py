@@ -2,7 +2,7 @@ from django import forms
 from .models import Themes, Comments, Opponent
 
 class CreateThemeForm(forms.ModelForm):
-    title = forms.CharField(label='お相手の名前')
+    title = forms.CharField(label='お相手の名前', max_length=100)
 
     class Meta:
         model = Themes
