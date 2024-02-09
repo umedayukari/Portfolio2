@@ -27,17 +27,16 @@ def anniversary_records(request):
     opponent_form = OpponentForm()
     return render(
         request, 
-        'boards/anniversary_records.html', 
+        'boards/anniversary_list.html', 
         context={'opponent_form': opponent_form}
     )
 
     
 def list_anniversary_records(request):
-    gift_records = AnniversaryRecords.objects.all()
+    create_anniversary_record_form = OpponentForm()
     return render(
         request, 'boards/anniversary_list.html', {
-            'gift_records': gift_records
-        }
+            'create_anniversary_record_form': create_anniversary_record_form}
     )
     
 def register_opponent(request):

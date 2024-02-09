@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'accounts:home' %}">ホーム画面に戻る</a>
+  <a class="navbar-brand" href="{% url 'boards:register_anniversary' %}">新規記念日の登録</a>
+</nav>
 <h3>記念日の記録一覧<h3>
-<form method="POST">
-  {% csrf_token%}
-  {{ create_anniversary_record_form.as_p }} 
-  <input type="submit"value="新規作成">
-</form>
 {% for record in anniversary_records %}
-  <!-- ここに各記念日の情報を表示するコードを追加 -->
 {% endfor %}
 
 {% endblock %}
-
