@@ -14,7 +14,7 @@ def register_anniversary(request):
         register_anniversary_form.instance.user = request.user
         register_anniversary_form.save()
         messages.success(request, '作成完了しました')
-        return redirect('boards:anniversary_records')  
+        return redirect('boards:anniversary_list')  
     
     return render(
         request, 

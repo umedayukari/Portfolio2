@@ -2,7 +2,7 @@
 {% block content %}
 <h3>お相手の一覧<h3>
 <a href="{% url 'boards:register_opponent' %}" class="btn btn-primary">新規作成</a>
-
+<a href="{% url 'accounts:home' %}" class="btn btn-primary">ホーム画面に戻る</a>
 <!-- お相手の一覧を表示 -->
 {% for opponent in opponent_records %}
   <div>

@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>記念日の登録<h3>
-<form method="POST">
-  {% csrf_token%}
-  {{ register_anniversary_form.as_p }} <!-- ここを変更しました -->
-  <input type="submit"value="登録">
+<h3>記念日の登録</h3>
+
+<!-- メッセージ表示部分を追加 -->
+{% if messages %}
+  <div class="alert alert-success" role="alert">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<form method="POST" class="form-group">
+  {% csrf_token %}
+  {{ register_anniversary_form.as_p }}
+  <button type="submit" class="btn btn-primary">登録</button>
 </form>
+<a href="{% url 'boards:anniversary_list' %}" class="btn btn-secondary">一覧に戻る</a>
 {% endblock %}
+

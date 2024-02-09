@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'accounts:home' %}">ホーム画面に戻る</a>
-  <a class="navbar-brand" href="{% url 'boards:register_anniversary' %}">新規記念日の登録</a>
-</nav>
-<h3>記念日の記録一覧<h3>
+<h3>記念日の記録一覧</h3>
+
+{% if messages %}
+  <div class="alert alert-success" role="alert">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  </div>
+{% endif %}
+
+<a href="{% url 'boards:register_anniversary' %}" class="btn btn-primary">新規記念日の登録</a>
+<a href="{% url 'accounts:home' %}" class="btn btn-primary">ホーム画面に戻る</a>
+
+
+<!-- 記念日の記録一覧を表示 -->
 {% for record in anniversary_records %}
+  <div>
+    <!-- ここに記念日の詳細を表示するコードを記述 -->
+  </div>
 {% endfor %}
 
 {% endblock %}

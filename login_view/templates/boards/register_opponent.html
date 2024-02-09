@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>お相手の登録</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">登録</button>
-  </form>
+<h2>お相手の登録</h2>
+<form method="post">
+ {% csrf_token %}
+ {{ form.as_p }}
+ <button type="submit" class="btn btn-primary">登録</button>
+</form>
+<a href="{% url 'boards:opponent_list' %}" class="btn btn-secondary">一覧に戻る</a> <!-- ここを追加 -->
 {% endblock %}
