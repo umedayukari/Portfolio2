@@ -2,26 +2,30 @@ from django.shortcuts import render, redirect
 from . import forms
 from django.contrib import messages
 from .models import Themes
-from .models import AnniversaryRecords
 from .forms import OpponentForm
 from .models import Opponent
+from .forms import AnniversaryRecordForm
 
-# Create your views here.
+
 def register_anniversary(request): 
-    register_anniversary_form = forms.CreateThemeForm(request.POST or None)  
-    
-    if  register_anniversary_form.is_valid():
-        register_anniversary_form.instance.user = request.user
-        register_anniversary_form.save()
-        messages.success(request, '作成完了しました')
-        return redirect('boards:anniversary_list')  
-    
+    if request.method == 'POST':
+        form = AnniversaryRecordForm(request.POST, request.FILES)
+        if form.is_valid():
+            anniversary_record = form.save(commit=False)
+            anniversary_record.user = request.user  # 必要であればユーザーを関連付けます
+            anniversary_record.save()
+            messages.success(request, '記念日の登録が完了しました')
+            return redirect('boards:anniversary_list')
+    else:
+        form = AnniversaryRecordForm()
+
     return render(
         request, 
         'boards/register_anniversary.html',
-        context={  
-            'register_anniversary_form':register_anniversary_form}
+        context={'register_anniversary_form': form}
     )
+    
+    
 def anniversary_records(request):
     # このビューではお相手の登録フォームを表示する
     opponent_form = OpponentForm()
@@ -38,6 +42,7 @@ def list_anniversary_records(request):
         request, 'boards/anniversary_list.html', {
             'create_anniversary_record_form': create_anniversary_record_form}
     )
+
     
 def register_opponent(request):
     # お相手の登録に関する処理をここに実装します。
@@ -61,3 +66,4 @@ def opponent_list(request):
 def search(request):
     # 検索機能に関する処理をここに実装します。
     pass
+
