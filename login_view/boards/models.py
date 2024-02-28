@@ -40,7 +40,11 @@ class Opponent(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-
+    
+    def __str__(self):
+        # インスタンスを文字列として表示する際には、nameフィールドの値を返す
+        return self.name
+    
     class Meta:
         db_table = 'opponents'
 
@@ -63,3 +67,10 @@ class AnniversaryRecords(models.Model):
 
     class Meta:
         db_table = 'anniversary_records'
+
+
+class PresentType(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
