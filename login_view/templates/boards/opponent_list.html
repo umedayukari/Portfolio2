@@ -17,8 +17,8 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">名前</th>
       <th scope="col">日付</th>
+      <th scope="col">名前</th>
       <th scope="col">性別</th>
       <th scope="col">記念日の詳細</th>
     </tr>
@@ -27,8 +27,8 @@
     {% for opponent in opponents %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{ opponent.name }}</td>
         <td>{{ opponent.date|date:"Y-m-d" }}</td>
+        <td>{{ opponent.name }}</td>
         <td>{{ opponent.get_sex_display }}</td>
         <td>{{ opponent.anniversary_details }}</td>
       </tr>

@@ -19,8 +19,8 @@
       <th scope="col">日付</th>
       <th scope="col">相手の名前</th>
       <th scope="col">目的</th>
-      <th scope="col">プレゼントの種類</th>
-      <th scope="col">金額の範囲</th>
+      <th scope="col">金額</th>
+      <th scope="col">思い出の内容</th>
     </tr>
   </thead>
 <tbody>
@@ -30,8 +30,8 @@
         <td>{{ record.date|date:"Y-m-d" }}</td>
         <td>{{ record.opponent.name }}</td> <!-- 相手の名前を表示 -->
         <td>{{ record.purpose }}</td>
-        <td>{{ record.present_type.name }}</td>
-        <td>{{ record.range_of_amounts }}</td>
+        <td>{{ record.amount_of_money|floatformat:"0" }}円</td>
+        <td>{{ record.memories }}</td>
       </tr>
     {% empty %}
       <tr>
