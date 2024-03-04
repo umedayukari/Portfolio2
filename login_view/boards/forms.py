@@ -6,6 +6,7 @@ PRESENT_CHOICES = [
     ('ornament', '装飾品'),
     ('clothes', '衣類'),
     ('food', '食べ物'),
+    ('gift_card', 'ギフトカード'),
     ('trip', '旅行'),
     ('letter', '手紙'),
     ('other', 'その他'),

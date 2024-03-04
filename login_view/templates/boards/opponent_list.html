@@ -1,14 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>お相手の一覧<h3>
+<h3>お相手の一覧</h3>
 <a href="{% url 'boards:register_opponent' %}" class="btn btn-primary">新規作成</a>
 <a href="{% url 'accounts:home' %}" class="btn btn-primary">ホーム画面に戻る</a>
-<!-- お相手の一覧を表示 -->
-{% for opponent in opponent_records %}
-  <div>
-    <p>{{ opponent.name }}</p>  <!-- お相手の名前を表示 -->
-    <!-- その他のお相手に関する情報を表示するコード -->
-  </div>
-{% endfor %}
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- お相手の一覧をテーブル形式で表示 -->
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">名前</th>
+      <th scope="col">日付</th>
+      <th scope="col">性別</th>
+      <th scope="col">記念日の詳細</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for opponent in opponents %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ opponent.name }}</td>
+        <td>{{ opponent.date|date:"Y-m-d" }}</td>
+        <td>{{ opponent.get_sex_display }}</td>
+        <td>{{ opponent.anniversary_details }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5">登録されたお相手がいません。</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 {% endblock %}

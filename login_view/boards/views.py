@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect
 from . import forms
 from django.contrib import messages
 from .models import Themes
-from .forms import OpponentForm
-from .models import Opponent
-from .forms import AnniversaryRecordForm
+from .models import AnniversaryRecords, Opponent
+from .forms import AnniversaryRecordForm, OpponentForm
 
 
 def register_anniversary(request): 
@@ -37,11 +36,15 @@ def anniversary_records(request):
 
     
 def list_anniversary_records(request):
-    create_anniversary_record_form = OpponentForm()
+    opponents = Opponent.objects.filter(user=request.user)
+    anniversary_records = AnniversaryRecords.objects.filter(opponent__in=opponents).order_by('-date_created')
+    form = AnniversaryRecordForm()
     return render(
         request, 'boards/anniversary_list.html', {
-            'create_anniversary_record_form': create_anniversary_record_form}
-    )
+            'anniversary_records': anniversary_records,
+            'form': form
+    })
+    
 
     
 def register_opponent(request):
@@ -53,13 +56,13 @@ def register_opponent(request):
             opponent.user = request.user  # ログイン中のユーザーを設定
             opponent.save()
             messages.success(request, 'お相手の登録が完了しました')
-            return redirect('account:home')  
+            return redirect('boards:opponent_list')  
     else:
         form = OpponentForm()
     return render(request, 'boards/register_opponent.html', {'form': form})
 
 def opponent_list(request):
-    opponents = Opponent.objects.filter(user=request.user)  # ログインユーザーに関連するお相手の一覧
+    opponents = Opponent.objects.filter(user=request.user)# ログインユーザーに関連するお相手の一覧
     return render(request, 'boards/opponent_list.html', {'opponents': opponents})
 
 

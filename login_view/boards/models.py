@@ -33,18 +33,23 @@ class Comments(models.Model):
 
 # Opponent情報のモデル
 class Opponent(models.Model):
+    SEX_CHOICES = [
+        ('M', '男性'),
+        ('F', '女性'),
+    ]
     date = models.DateField()
-    sex = models.CharField(max_length=1)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES)
     name = models.CharField(max_length=255)
     anniversary_details = models.TextField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    
+
+    # 他のメソッドやメタクラスの定義...
+
     def __str__(self):
-        # インスタンスを文字列として表示する際には、nameフィールドの値を返す
         return self.name
-    
+
     class Meta:
         db_table = 'opponents'
 

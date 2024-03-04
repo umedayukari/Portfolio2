@@ -1,24 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
 <h3>記念日の記録一覧</h3>
-
-{% if messages %}
-  <div class="alert alert-success" role="alert">
-    {% for message in messages %}
-      {{ message }}
-    {% endfor %}
-  </div>
-{% endif %}
-
 <a href="{% url 'boards:register_anniversary' %}" class="btn btn-primary">新規記念日の登録</a>
 <a href="{% url 'accounts:home' %}" class="btn btn-primary">ホーム画面に戻る</a>
 
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
 
-<!-- 記念日の記録一覧を表示 -->
-{% for record in anniversary_records %}
-  <div>
-    <!-- ここに記念日の詳細を表示するコードを記述 -->
-  </div>
-{% endfor %}
-
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">日付</th>
+      <th scope="col">相手の名前</th>
+      <th scope="col">目的</th>
+      <th scope="col">プレゼントの種類</th>
+      <th scope="col">金額の範囲</th>
+    </tr>
+  </thead>
+<tbody>
+    {% for record in anniversary_records %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ record.date|date:"Y-m-d" }}</td>
+        <td>{{ record.opponent.name }}</td> <!-- 相手の名前を表示 -->
+        <td>{{ record.purpose }}</td>
+        <td>{{ record.present_type.name }}</td>
+        <td>{{ record.range_of_amounts }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="6">登録された記念日の記録がいません。</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
+
+
