@@ -6,8 +6,9 @@ app_name = 'boards'
 
 urlpatterns = [
     path('register_anniversary/', views.register_anniversary, name='register_anniversary'),
-     path('anniversary_list/', views.list_anniversary_records, name='anniversary_list'),
-     path('register_opponent/', views.register_opponent, name='register_opponent'),
+    path('anniversary_list/', views.list_anniversary_records, name='anniversary_list'),
+    path('anniversary/edit/<int:id>/', views.edit_anniversary_record, name='edit_anniversary_record'),
+    path('register_opponent/', views.register_opponent, name='register_opponent'),
     path('opponent_list/', views.opponent_list, name='opponent_list'),
     path('search/', views.search, name='search'),
 ]

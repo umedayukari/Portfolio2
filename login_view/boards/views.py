@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import Http404
 from . import forms
 from django.contrib import messages
 from .models import Themes
@@ -44,7 +45,24 @@ def list_anniversary_records(request):
             'anniversary_records': anniversary_records,
             'form': form
     })
-    
+
+def edit_anniversary_record(request, id):
+    # opponent__user=request.user を使用して、ユーザーに紐づく記念日レコードをフィルタリング
+    anniversary_record = get_object_or_404(AnniversaryRecords, id=id, opponent__user=request.user)
+    if request.method == 'POST':
+        form = AnniversaryRecordForm(request.POST, request.FILES, instance=anniversary_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '記念日を更新しました')
+            return redirect('boards:anniversary_list')
+    else:
+        form = AnniversaryRecordForm(instance=anniversary_record)
+
+    return render(
+        request, 
+        'boards/edit_anniversary_record.html', 
+        context={'form': form, 'id': id}
+    )    
 
     
 def register_opponent(request):

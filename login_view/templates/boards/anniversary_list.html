@@ -32,10 +32,13 @@
         <td>{{ record.purpose }}</td>
         <td>{{ record.amount_of_money|floatformat:"0" }}円</td>
         <td>{{ record.memories }}</td>
+        <td>
+          <a href="{% url 'boards:edit_anniversary_record' id=record.id %}">編集</a>
+        </td>
       </tr>
     {% empty %}
       <tr>
-        <td colspan="6">登録された記念日の記録がいません。</td>
+        <td colspan="7">登録された記念日の記録がいません。</td>
       </tr>
     {% endfor %}
   </tbody>
