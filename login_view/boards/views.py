@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import Themes
 from .models import AnniversaryRecords, Opponent
 from .forms import AnniversaryRecordForm, OpponentForm
+from django.contrib.auth.decorators import login_required
 
 
 def register_anniversary(request): 
@@ -63,6 +64,19 @@ def edit_anniversary_record(request, id):
         'boards/edit_anniversary_record.html', 
         context={'form': form, 'id': id}
     )    
+
+def delete_anniversary_record(request, id):
+    anniversary_record = get_object_or_404(AnniversaryRecords, id=id)
+    # 記念日の所有者が現在のユーザーであることを確認
+    if anniversary_record.opponent.user != request.user:
+        raise Http404
+    if request.method == 'POST':  # 安全な削除のためPOSTリクエストを確認
+        anniversary_record.delete()
+        messages.success(request, '記念日の記録が削除されました。')
+        return redirect('boards:anniversary_records')
+    else:
+        # GETリクエストの場合は削除確認ページを表示するか、または直接リダイレクト
+        return redirect('boards:anniversary_records')
 
     
 def register_opponent(request):

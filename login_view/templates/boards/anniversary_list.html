@@ -17,7 +17,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">日付</th>
-      <th scope="col">相手の名前</th>
+      <th scope="col" style="white-space: nowrap;">相手の名前</th>
       <th scope="col">目的</th>
       <th scope="col">金額</th>
       <th scope="col">思い出の内容</th>
@@ -28,17 +28,21 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ record.date|date:"Y-m-d" }}</td>
-        <td>{{ record.opponent.name }}</td> <!-- 相手の名前を表示 -->
-        <td>{{ record.purpose }}</td>
-        <td>{{ record.amount_of_money|floatformat:"0" }}円</td>
+        <td style="white-space: nowrap;">{{ record.opponent.name }}</td> <!-- 相手の名前を表示 -->
+        <td style="white-space: nowrap;">{{ record.purpose }}</td>
+        <td style="white-space: nowrap;">{{ record.amount_of_money|floatformat:"0" }}円</td>
         <td>{{ record.memories }}</td>
         <td>
           <a href="{% url 'boards:edit_anniversary_record' id=record.id %}">編集</a>
+          <form action="{% url 'boards:delete_anniversary_record' id=record.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger" onclick="return confirm('この記念日を削除してもよろしいですか？');">削除</button>
+          </form>
         </td>
       </tr>
     {% empty %}
       <tr>
-        <td colspan="7">登録された記念日の記録がいません。</td>
+        <td colspan="7">登録された記念日の記録がありません。</td>
       </tr>
     {% endfor %}
   </tbody>
