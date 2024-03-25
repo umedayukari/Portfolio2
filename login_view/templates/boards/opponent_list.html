@@ -13,7 +13,7 @@
 {% endif %}
 
 <!-- お相手の一覧をテーブル形式で表示 -->
-<table class="table">
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -31,6 +31,14 @@
         <td>{{ opponent.name }}</td>
         <td>{{ opponent.get_sex_display }}</td>
         <td>{{ opponent.anniversary_details }}</td>
+        <td>
+          <a href="{% url 'boards:edit_opponent' id=opponent.id %}">編集</a>
+          <form action="{% url 'boards:delete_opponent' id=opponent.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.path }}">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('このお相手の記録を削除してもよろしいですか？');">削除</button>
+          </form>
+        </td>
       </tr>
     {% empty %}
       <tr>

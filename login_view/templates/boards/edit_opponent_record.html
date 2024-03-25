@@ -1,0 +1,12 @@
+<!-- edit_anniversary_record.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>お相手情報を編集する</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">更新</button>
+    <a href="{% url 'boards:opponent_list' %}" class="btn btn-secondary">一覧画面に戻る</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>記録の検索</h2>
+<form action="{% url 'boards:search' %}" method="get">
+    <input type="text" name="query" placeholder="検索...">
+
+    <select name="present_type">
+        <option value="">すべての種類</option>
+        {% for value, label in present_choices %}
+        <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="amount_range">
+        <option value="">すべての価格帯</option>
+        {% for value, label in amount_range_choices %}
+        <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">検索</button>
+</form>
+<a href="{% url 'accounts:home' %}" class="btn btn-primary">ホーム画面に戻る</a>
+
+{% if results %}
+    <ul>
+    {% for record in results %}
+        <li>{{ record.present_type }} - {{ record.amount_range }} - {{ record.purpose }} - {{ record.opponent.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>該当する記念日の記録が見つかりませんでした。</p>
+{% endif %}
+{% endblock %}

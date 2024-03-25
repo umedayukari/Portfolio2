@@ -36,7 +36,7 @@ class OpponentForm(forms.ModelForm):
         label='日付',
         widget=forms.DateInput(attrs={'type': 'date'})
         )
-    sex = forms.CharField(label='性別')
+    sex = forms.ChoiceField(label='性別', choices=Opponent.SEX_CHOICES)
     name = forms.CharField(label='名前')
     anniversary_details = forms.CharField(label='記念日の詳細', max_length=100)
     
@@ -102,3 +102,5 @@ class AnniversaryRecordForm(forms.ModelForm):
             # その他のフィールドのラベルもここに追加してください
         }
        
+class SearchForm(forms.Form):
+    query = forms.CharField(required=False, label='検索')

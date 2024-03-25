@@ -6,6 +6,8 @@ from .models import Themes
 from .models import AnniversaryRecords, Opponent
 from .forms import AnniversaryRecordForm, OpponentForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from .forms import PRESENT_CHOICES, AMOUNT_RANGE_CHOICES
 
 
 def register_anniversary(request): 
@@ -97,8 +99,54 @@ def opponent_list(request):
     opponents = Opponent.objects.filter(user=request.user)# ログインユーザーに関連するお相手の一覧
     return render(request, 'boards/opponent_list.html', {'opponents': opponents})
 
+def edit_opponent(request, id):
+    opponent = get_object_or_404(Opponent, id=id, user=request.user)
+    if request.method == 'POST':
+        form = OpponentForm(request.POST, instance=opponent)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'お相手の情報を更新しました')
+            return redirect('boards:opponent_list')
+    else:
+        form = OpponentForm(instance=opponent)
+    
+    return render(request, 'boards/edit_opponent_record.html', {'form': form})
+
+def delete_opponent(request, id):
+    opponent = get_object_or_404(Opponent, id=id, user=request.user)
+    if request.method == 'POST':
+        opponent.delete()
+        messages.success(request, 'お相手を削除しました')
+        next_url = request.POST.get('next', 'boards:opponent_list')
+        return redirect(next_url)
+    
+    # 通常は直接削除リンクにGETリクエストを許可しないため、ここは適宜調整
+    return redirect('boards:opponent_list')
+
+
 
 def search(request):
-    # 検索機能に関する処理をここに実装します。
-    pass
+    query = request.GET.get('query', '')
+    present_type = request.GET.get('present_type', '')
+    amount_range = request.GET.get('amount_range', '')
+    
+    results = AnniversaryRecords.objects.all()
 
+    if query:
+        results = results.filter(
+            Q(present_type__icontains=query) |
+            Q(purpose__icontains=query) |
+            Q(opponent__name__icontains=query)
+        )
+    
+    if present_type:
+        results = results.filter(present_type=present_type)
+        
+    if amount_range:
+        results = results.filter(amount_range=amount_range)
+
+    return render(request, 'boards/search_results.html', {
+        'results': results,
+        'present_choices': PRESENT_CHOICES,
+        'amount_range_choices': AMOUNT_RANGE_CHOICES
+    })
