@@ -5,9 +5,9 @@ from django.contrib import messages
 from .models import Themes
 from .models import AnniversaryRecords, Opponent
 from .forms import AnniversaryRecordForm, OpponentForm
+from .forms import PRESENT_CHOICES, AMOUNT_RANGE_CHOICES
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import PRESENT_CHOICES, AMOUNT_RANGE_CHOICES
 
 
 def register_anniversary(request): 
@@ -41,13 +41,22 @@ def anniversary_records(request):
     
 def list_anniversary_records(request):
     opponents = Opponent.objects.filter(user=request.user)
+    present_type = request.GET.get('present_type', '')
+    
     anniversary_records = AnniversaryRecords.objects.filter(opponent__in=opponents).order_by('-date_created')
+    if present_type:
+        anniversary_records = anniversary_records.filter(present_type=present_type)
+    
+    anniversary_records = anniversary_records.order_by('-date_created')
+    
     form = AnniversaryRecordForm()
-    return render(
-        request, 'boards/anniversary_list.html', {
-            'anniversary_records': anniversary_records,
-            'form': form
-    })
+    context = {
+        'anniversary_records': anniversary_records,
+        'form': form,
+        'PRESENT_CHOICES': PRESENT_CHOICES,
+        'selected_present_type': present_type,
+    }
+    return render(request, 'boards/anniversary_list.html', context)
 
 def edit_anniversary_record(request, id):
     # opponent__user=request.user を使用して、ユーザーに紐づく記念日レコードをフィルタリング

@@ -54,15 +54,16 @@ class AnniversaryRecordForm(forms.ModelForm):
     
     present_type = forms.ChoiceField(
         label='プレゼントの種類',
-        choices=PRESENT_CHOICES,
+        choices=[('', 'すべて')] + list(PRESENT_CHOICES),
         required=False
     )
     
     range_of_amounts = forms.ChoiceField(
         label='金額の範囲',
-        choices=AMOUNT_RANGE_CHOICES,
+        choices=[('', 'すべて')] + list(AMOUNT_RANGE_CHOICES),
         required=False
     )
+    
     
     class Meta:
         model = AnniversaryRecords
@@ -102,5 +103,3 @@ class AnniversaryRecordForm(forms.ModelForm):
             # その他のフィールドのラベルもここに追加してください
         }
        
-class SearchForm(forms.Form):
-    query = forms.CharField(required=False, label='検索')

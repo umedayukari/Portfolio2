@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 <h3>記念日の記録一覧</h3>
-<a href="{% url 'boards:register_anniversary' %}" class="btn btn-primary">新規記念日の登録</a>
+<a href="{% url 'boards:register_anniversary' %}" class="btn btn-primary">新規登録</a>
 <a href="{% url 'accounts:home' %}" class="btn btn-primary">ホーム画面に戻る</a>
 
+<form method="get" action="">
+  <label for="present_type">プレゼントの種類:</label>
+    <select name="present_type" id="present_type">
+        <option value="">すべて</option>
+        {% for value, label in PRESENT_CHOICES %}
+            <option value="{{ value }}" {% if value == selected_present_type %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="検索する"/>    
+
+</form>
 {% if messages %}
   {% for message in messages %}
     <div class="alert alert-success">
