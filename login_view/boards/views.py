@@ -42,11 +42,16 @@ def anniversary_records(request):
 def list_anniversary_records(request):
     opponents = Opponent.objects.filter(user=request.user)
     present_type = request.GET.get('present_type', '')
-    
+    range_of_amounts = request.GET.get('range_of_amounts', '')
+    # プレゼントの種類でフィルタリング
     anniversary_records = AnniversaryRecords.objects.filter(opponent__in=opponents).order_by('-date_created')
     if present_type:
         anniversary_records = anniversary_records.filter(present_type=present_type)
+    # 金額の範囲でフィルタリング
+    if range_of_amounts:
+        anniversary_records = anniversary_records.filter(range_of_amounts=range_of_amounts)
     
+    # 結果を日付で降順にソート
     anniversary_records = anniversary_records.order_by('-date_created')
     
     form = AnniversaryRecordForm()
@@ -54,7 +59,9 @@ def list_anniversary_records(request):
         'anniversary_records': anniversary_records,
         'form': form,
         'PRESENT_CHOICES': PRESENT_CHOICES,
+        'AMOUNT_RANGE_CHOICES': AMOUNT_RANGE_CHOICES,
         'selected_present_type': present_type,
+        'selected_range_of_amounts': range_of_amounts,
     }
     return render(request, 'boards/anniversary_list.html', context)
 

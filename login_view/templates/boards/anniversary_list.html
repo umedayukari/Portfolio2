@@ -7,7 +7,7 @@
 <form method="get" action="">
   <label for="present_type">プレゼントの種類:</label>
     <select name="present_type" id="present_type">
-        <option value="">すべて</option>
+        <option value="">選択なし</option>
         {% for value, label in PRESENT_CHOICES %}
             <option value="{{ value }}" {% if value == selected_present_type %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
@@ -15,6 +15,19 @@
     <input type="submit" value="検索する"/>    
 
 </form>
+
+<form method="get" action="">
+  <label for="range_of_amounts">金額の範囲（円）:</label>
+    <select name="range_of_amounts" id="range_of_amounts">
+        <option value="">選択なし</option>
+        {% for value, label in AMOUNT_RANGE_CHOICES %}
+            <option value="{{ value }}" {% if value == selected_range_of_amounts %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="検索する"/>    
+
+</form>
+
 {% if messages %}
   {% for message in messages %}
     <div class="alert alert-success">
@@ -30,7 +43,10 @@
       <th scope="col">日付</th>
       <th scope="col" style="white-space: nowrap;">相手の名前</th>
       <th scope="col">目的</th>
+      <th scope="col">金額の範囲</th>
       <th scope="col">金額</th>
+      <th scope="col">プレゼントの種類</th>
+      <th scope="col">プレゼントの内容</th>
       <th scope="col">思い出の内容</th>
     </tr>
   </thead>
@@ -41,7 +57,10 @@
         <td>{{ record.date|date:"Y-m-d" }}</td>
         <td style="white-space: nowrap;">{{ record.opponent.name }}</td> <!-- 相手の名前を表示 -->
         <td style="white-space: nowrap;">{{ record.purpose }}</td>
+        <td style="white-space: nowrap;">{{ record.range_of_amounts }}</td>
         <td style="white-space: nowrap;">{{ record.amount_of_money|floatformat:"0" }}円</td>
+        <td style="white-space: nowrap;">{{ record.present_type }}</td>
+        <td style="white-space: nowrap;">{{ record.present }}</td>
         <td>{{ record.memories }}</td>
         <td>
           <a href="{% url 'boards:edit_anniversary_record' id=record.id %}">編集</a>
